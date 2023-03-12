@@ -29,22 +29,70 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 function App() {
-  const[value,setValue] = useState(0);
-  const[value2,setValue2] = useState(0);
+  const[value,setValue] = useState('');
+  const[d3,setD3] = useState(false);
+  const[d2,setD2] = useState(false);
+  const[d1,setD1] = useState(false);
+
   useEffect(()=>{
-    const starCountRef = ref(db, '/number');
-    const starCountRef2 = ref(db, '/number');
+    const starCountRef = ref(db, '/message');
+
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
-      console.log(data);
+  
       setValue(data);
     });
-    onValue(starCountRef2, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
-      setValue2(data);
-    });
+    
   },[])
+
+  useEffect(()=>{
+  
+    if (value?.indexOf('d3') === 0 ){
+
+      if (value?.indexOf('0.00') === 5){
+   
+         setD3(true);
+     }
+        
+      else
+       {
+       setD3(false);
+  
+        
+    }
+    
+  }
+  if (value?.indexOf('d2') === 0 ){
+
+    if (value?.indexOf('0.00') === 5){
+ 
+       setD2(true);
+   }
+      
+    else
+     {
+     setD2(false);
+
+      
+  }
+  
+}
+if (value?.indexOf('d1') === 0 ){
+
+  if (value?.indexOf('0.00') === 5){
+
+     setD1(true);
+ }
+    
+  else
+   {
+   setD1(false);
+
+    
+}
+
+}
+  },[value])
 
   return (
     <View style={styles.container}>
@@ -90,10 +138,54 @@ function App() {
             
             </Text>
           </Stack>
-          <Text>{value}</Text>
-          <Progress colorScheme="emerald" value={value} />
-          <Text>{value2}</Text>
-          <Progress colorScheme="emerald" value={value2} />
+
+          {
+          d1
+          ?
+          <>
+          <Text>1</Text>
+          <Progress colorScheme="emerald" value={100} />
+          <Text>1 бос</Text>
+          </>
+          :
+          <>
+          <Text>1</Text>
+          <Progress colorScheme="red" value={100} />
+          <Text>1 бос емес</Text>
+          </>
+        }
+          {
+          d2
+          ?
+          <>
+          <Text>2</Text>
+          <Progress colorScheme="emerald" value={100} />
+          <Text>2 бос</Text>
+          </>
+          :
+          <>
+          <Text>2</Text>
+          <Progress colorScheme="red" value={100} />
+          <Text>2 бос емес</Text>
+          </>
+        }
+        {
+          d3
+          ?
+          <>
+          <Text>3</Text>
+          <Progress colorScheme="emerald" value={100} />
+          <Text>3 бос</Text>
+          </>
+          :
+          <>
+          <Text>3</Text>
+          <Progress colorScheme="red" value={100} />
+          <Text>3 бос емес</Text>
+          </>
+        }
+
+ 
           <HStack alignItems="center" space={4} justifyContent="space-between">
             <HStack alignItems="center">
               <Text color="coolGray.600" _dark={{
